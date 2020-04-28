@@ -20,5 +20,6 @@ app.use(bodyParser.json());
 // Rutas Base
 app.use('/api', user_routes)
 app.use('/api', artists_routes)
+app.use('/api', album_routes)
 
 module.exports = app;
