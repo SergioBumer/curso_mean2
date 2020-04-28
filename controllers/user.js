@@ -1,7 +1,9 @@
 'use strict'
 var bcrypt = require('bcrypt-nodejs');
 var User = require('../models/user');
-var jwt = require("../services/jwt")
+var jwt = require("../services/jwt");
+var fs = require("fs");
+var path = require("path");
 function pruebas(req, res) {
     res.status(200).send({ message: "Probando controlador usuario" })
 }
@@ -112,10 +114,22 @@ function uploadImage(req, res) {
         res.status(404).send({ message: "Imagen no cargada." });
     }
 }
+function getImageFile(req, res) {
+    var imageFile = req.params.imageFile;
+    var pathFile = './uploads/users/' + imageFile;
+    fs.exists(pathFile, function(exists){
+        if (exists) {
+            res.status(200).sendFile(path.resolve(pathFile));
+        } else {
+            res.status(404).send({ message: "Imagen no existe" })
+        }
+    });
+}
 module.exports = {
     pruebas,
     saveUser,
     loginUser,
     updateUser,
-    uploadImage
+    uploadImage,
+    getImageFile
 }
