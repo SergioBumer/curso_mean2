@@ -8,11 +8,11 @@ var md_upload = multipart({uploadDir: './uploads/users'});
 
 api.post('/login-user', UserController.loginUser)
 api.post('/register-user', UserController.saveUser)
+api.put('/update-user/:id', md_auth.ensureAuth, UserController.updateUser)
+// Imagenes
 api.post('/upload-image-user/:id',[md_auth.ensureAuth, md_upload], UserController.uploadImage)
 api.post('/get-image-user/:imageFile', UserController.getImageFile)
 
-api.put('/update-user/:id', md_auth.ensureAuth, UserController.updateUser)
-api.get('/probando-controlador', md_auth.ensureAuth, UserController.pruebas)
 
 
 module.exports = api;
