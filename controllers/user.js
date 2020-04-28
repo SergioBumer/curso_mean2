@@ -72,21 +72,50 @@ function updateUser(req, res) {
     var userID = req.params.id;
     var update = req.body;
 
-    User.findByIdAndUpdate(userID, update, (err, userUpdated)=>{
-        if(err){
-            res.status(500).send({message: "Error de actualización"})
-        }else{
-            if(!userUpdated){
-                res.status(404).send({message: "Usuario no se pudo actualizar"})
-            }else{
-                res.status(200).send({user: userUpdated})
+    User.findByIdAndUpdate(userID, update, (err, userUpdated) => {
+        if (err) {
+            res.status(500).send({ message: "Error de actualización" })
+        } else {
+            if (!userUpdated) {
+                res.status(404).send({ message: "Usuario no se pudo actualizar" })
+            } else {
+                res.status(200).send({ user: userUpdated })
             }
         }
     });
+}
+function uploadImage(req, res) {
+    var userId = req.params.id;
+    var file_name = "No subido..."
+
+    if (req.files) {
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('\\');
+        var file_name = file_split[2];
+
+        var ext_split = file_path.split('.');
+        var file_ext = ext_split[1];
+
+        var valid_ext = ['png', 'jpg', 'gif']
+        if (valid_ext.includes(file_ext)) {
+            User.findByIdAndUpdate(userId, { image: file_name }, (err, userUpdated) => {
+                if (!userUpdated) {
+                    res.status(404).send({ message: "No se actualizó la imagen del usuario." });
+                } else {
+                    res.status(200).send({ message: "Imagen actualizada correctamente." });
+                }
+            });
+        } else {
+            res.status(404).send({ message: "Extensión de archivo incorrecta." });
+        }
+    } else {
+        res.status(404).send({ message: "Imagen no cargada." });
+    }
 }
 module.exports = {
     pruebas,
     saveUser,
     loginUser,
-    updateUser
+    updateUser,
+    uploadImage
 }
