@@ -11,7 +11,7 @@ api.post('/register-user', UserController.saveUser)
 api.put('/update-user/:id', md_auth.ensureAuth, UserController.updateUser)
 // Imagenes
 api.post('/upload-image-user/:id',[md_auth.ensureAuth, md_upload], UserController.uploadImage)
-api.post('/get-image-user/:imageFile', UserController.getImageFile)
+api.get('/get-image-user/:imageFile', UserController.getImageFile)
 
 
 

@@ -1,0 +1,48 @@
+<hr>
+<div class="col-lg-6" *ngIf="identity">
+    <div>
+        <div *ngIf="alertMessage" class="alert alert-primary" role="alert">
+            {{alertMessage}}
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+        </div>
+        <form #updatForm="ngForm" class="col-md-10" (ngSubmit)="onSubmit()" action="">
+            <h1>{{titulo}}</h1>
+            <p>
+                <label>Nombre: </label>
+                <input type="text" #name="ngModel" name="name" [(ngModel)]="user_update.name" class="form-control" />
+                <span style="color:red" *ngIf="!name.valid && name.touched">
+                    El nombre es obligatorio.
+                </span>
+            </p>
+            <p>
+
+                <label>Apellidos: </label>
+                <input type="text" #surname="ngModel" name="surname" [(ngModel)]="user_update.surname"
+                    class="form-control" />
+                <span style="color:red" *ngIf="!surname.valid && surname.touched">
+                    El apellido es obligatorio.
+                </span>
+            </p>
+            <p>
+
+                <label>Correo electrónico: </label>
+                <input type="text" #email="ngModel" name="email" [(ngModel)]="user_update.email" class="form-control" />
+                <span style="color:red" *ngIf="!email.valid && email.touched">
+                    El email es obligatorio.
+                </span>
+            </p>
+            <div class="image_for_edit" *ngIf="user_update.image && user_update.image != 'null'">
+                <img style="width: 50px" src="{{url}}get-image-user/{{user_update.image}}" />
+            </div>
+            <p>
+                <label for="">Sube tu foto: </label><br>
+                <input (change)="fileChangeEvent($event)" type="file" placeholder="Subir imagen..." name="" id="" />
+            </p>
+            <br>
+            <input type="submit" value="Actualizar" class="btn btn-primary">
+
+        </form>
+    </div>
+</div>

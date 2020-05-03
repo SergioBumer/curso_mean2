@@ -123,7 +123,7 @@ function uploadImage(req, res) {
         var file_ext = ext_split[1];
 
         var valid_ext = ['png', 'jpg', 'gif']
-        if (valid_ext.includes(file_ext)) {
+        if (valid_ext.includes(file_ext.toLowerCase())) {
             Artist.findByIdAndUpdate(artistId, { image: file_name }, (err, artistUpdated) => {
                 if (err) {
                     res.status(500).send({ message: "Error al actualizar la imagen." });

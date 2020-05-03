@@ -11,7 +11,6 @@ function pruebas(req, res) {
 function saveUser(req, res) {
     var user = new User();
     var params = req.body;
-    console.log("Test");
     user.name = params.name;
     user.surname = params.surname;
     user.email = params.email;
@@ -73,7 +72,13 @@ function loginUser(req, res) {
 function updateUser(req, res) {
     var userID = req.params.id;
     var update = req.body;
-
+    console.log(userID);
+    console.log(req.user.sub);
+    
+    
+    if(userID != req.user.sub){
+        return res.status(500).send({ message: "No tienes permisos de cambio para este usuario." })
+    }
     User.findByIdAndUpdate(userID, update, (err, userUpdated) => {
         if (err) {
             res.status(500).send({ message: "Error de actualización" })
@@ -99,7 +104,7 @@ function uploadImage(req, res) {
         var file_ext = ext_split[1];
 
         var valid_ext = ['png', 'jpg', 'gif']
-        if (valid_ext.includes(file_ext)) {
+        if (valid_ext.includes(file_ext.toLowerCase())) {
             User.findByIdAndUpdate(userId, { image: file_name }, (err, userUpdated) => {
                 if (!userUpdated) {
                     res.status(404).send({ message: "No se actualizó la imagen del usuario." });

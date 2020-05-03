@@ -116,7 +116,7 @@ function uploadImage(req, res) {
         var file_ext = ext_split[1];
 
         var valid_ext = ['png', 'jpg', 'gif']
-        if (valid_ext.includes(file_ext)) {
+        if (valid_ext.includes(file_ext.toLowerCase())) {
             Album.findByIdAndUpdate(albumId, { image: file_name }, (err, albumUpdated) => {
                 if (err) {
                     res.status(500).send({ message: "Error al actualizar la imagen." });

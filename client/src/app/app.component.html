@@ -1,3 +1,109 @@
-<h1>
-  {{title}}
-</h1>
+<div class="navigation col-lg-1">
+    <h1>
+        {{title}}
+    </h1>
+    <nav id="navigation">
+        <a href="#">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            Buscar
+        </a>
+        <a href="#">
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            Artistas
+        </a>
+        <a href="#">
+            <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+            Albums
+        </a>
+    </nav>
+    <nav id="user_logged">
+        <div  *ngIf="identity.image && identity.image != 'null'">
+            <img id="user_image" style="width: 50px" src="{{url}}get-image-user/{{identity.image}}" />
+        </div>
+        <span id="user_logged_in" *ngIf="identity" class="">
+            {{identity.name}} {{identity.surname}}
+        </span>
+        <span *ngIf="identity" class="btn btn-warning" (click)="logout()">Cerrar sesión</span>
+        <a [routerLink]="['mis-datos']" href="#">
+            Mis Datos
+        </a>
+    </nav>
+</div>
+<div class="clearfix">
+</div>
+<div *ngIf="identity" class="central col-lg-11">
+    <router-outlet></router-outlet>
+</div>
+<div *ngIf="!identity" class="row col-lg-12">
+    <div class="col-lg-6">
+        <form #loginForm="ngForm" class="col-md-7" (ngSubmit)="onSubmit()">
+            <h1>Identificate</h1>
+            <div *ngIf="errorMessage">
+                <div class="alert alert-info">
+                    <strong>Error</strong> {{errorMessage}}
+                </div>
+            </div>
+            <p>
+                <label>Correo electrónico: </label>
+                <input type="email" #email="ngModel" name="email" [(ngModel)]="user.email" class="form-control"
+                    required />
+                <span style="color:red" *ngIf="!email.valid && email.touched">
+                    El email es obligatorio.
+                </span>
+            </p>
+            <p>
+                <label>Contraseña: </label>
+                <input type="password" #password="ngModel" name="password" [(ngModel)]="user.password"
+                    class="form-control" required />
+                <span style="color:red" *ngIf="!password.valid && password.touched">
+                    La contraseña es obligatoria.
+                </span>
+                <br>
+                <input type="submit" value="Iniciar sesión" class="btn btn-primary">
+            </p>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <form #registerForm="ngForm" class="col-md-10" (ngSubmit)="onSubmitRegister()" action="">
+            <h1>Registrate</h1>
+            <p>
+                <label>Nombre: </label>
+                <input type="text" #name="ngModel" name="name" [(ngModel)]="user_register.name" class="form-control"
+                    required />
+                <span style="color:red" *ngIf="!name.valid && name.touched">
+                    El nombre es obligatorio.
+                </span>
+            </p>
+            <p>
+
+                <label>Apellidos: </label>
+                <input type="text" #surname="ngModel" name="surname" [(ngModel)]="user_register.surname"
+                    class="form-control" required />
+                <span style="color:red" *ngIf="!surname.valid && surname.touched">
+                    El apellido es obligatorio.
+                </span>
+            </p>
+            <p>
+
+                <label>Correo electrónico: </label>
+                <input type="text" #email="ngModel" name="email" [(ngModel)]="user_register.email" class="form-control"
+                    required />
+                <span style="color:red" *ngIf="!email.valid && email.touched">
+                    El email es obligatorio.
+                </span>
+            </p>
+            <p>
+                <label>Contraseña: </label>
+                <input type="password" #password="ngModel" name="password" [(ngModel)]="user_register.password"
+                    class="form-control" required />
+                <span style="color:red" *ngIf="!password.valid && password.touched">
+                    La contraseña es obligatoria.
+                </span>
+            </p>
+            <br>
+            <input type="submit" value="Registrarme" class="btn btn-primary">
+
+        </form>
+    </div>
+
+</div>
